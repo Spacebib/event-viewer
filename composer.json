@@ -1,0 +1,43 @@
+{
+    "name": "spacebib/event-viewer",
+    "description": "A Laravel package that can be used to view event streams",
+    "type": "library",
+    "license": "MIT",
+    "authors": [
+        {
+            "name": "kaiwei",
+            "email": "kaiwei@spacebib.com"
+        }
+    ],
+    "require": {
+        "php": ">=7.2",
+        "illuminate/support": "^5.5|^6|^7"
+    },
+    "require-dev": {
+        "squizlabs/php_codesniffer": "^3",
+        "orchestra/testbench": "^3|^4|^5"
+    },
+    "autoload": {
+        "psr-4": {
+            "Spacebib\\EventViewer\\": "src"
+        }
+    },
+    "autoload-dev": {
+        "psr-4": {
+            "Spacebib\\EventViewer\\Tests\\": "tests"
+        }
+    },
+    "extra": {
+        "laravel": {
+            "providers": [
+                "Spacebib\\EventViewer\\EventViewerServiceProvider"
+            ]
+        }
+    },
+    "repositories": {
+        "packagist": {
+            "type": "composer",
+            "url": "https://repo.packagist.org"
+        }
+    }
+}
