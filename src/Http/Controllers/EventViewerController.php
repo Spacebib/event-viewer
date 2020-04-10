@@ -1,10 +1,11 @@
 <?php
 
-namespace Spacebib\EventViewer\Controllers;
+namespace Spacebib\EventViewer\Http\Controllers;
 
 use Illuminate\Http\Request;
 use Illuminate\Routing\Controller;
 use Spacebib\EventViewer\EventViewer;
+use Spacebib\EventViewer\Http\Middleware\Authenticate;
 
 class EventViewerController extends Controller
 {
@@ -12,6 +13,7 @@ class EventViewerController extends Controller
 
     public function __construct(EventViewer $eventViewer)
     {
+        $this->middleware(Authenticate::class);
         $this->eventViewer = $eventViewer;
     }
 

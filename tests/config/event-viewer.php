@@ -10,5 +10,5 @@ return [
         'pay_load' => 'event_properties',
     ],
     'path' => 'event-viewer',
-    'accessEmails' => [],
+    'accessEmails' => ['admin@event-viewer.com'],
 ];

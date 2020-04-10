@@ -1,9 +1,21 @@
 <?php
 
-namespace Spacebib\EventViewer\Tests;
+namespace Spacebib\EventViewer\Tests\Http\Controllers;
 
-class RouteTest extends TestCase
+use Spacebib\EventViewer\EventViewer;
+use Spacebib\EventViewer\Tests\TestCase;
+
+class EventViewerControllerTest extends TestCase
 {
+    protected function setUp(): void
+    {
+        parent::setUp();
+
+        EventViewer::auth(function () {
+            return true;
+        });
+    }
+
     /** @test */
     public function visit_index_route()
     {

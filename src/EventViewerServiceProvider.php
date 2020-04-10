@@ -2,6 +2,7 @@
 
 namespace Spacebib\EventViewer;
 
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Support\Facades\Route;
 use Illuminate\Support\ServiceProvider;
 
@@ -9,15 +10,29 @@ class EventViewerServiceProvider extends ServiceProvider
 {
     public function boot()
     {
+        $this->authorization();
+
         $this->registerRoutes();
         $this->registerResources();
         $this->registerPublishing();
     }
 
+    protected function authorization()
+    {
+        Gate::define('viewEventViewer', function ($user) {
+            return in_array($user->email, config('event-viewer.accessEmails'));
+        });
+
+        EventViewer::auth(function ($request) {
+            return app()->environment('local') ||
+                Gate::check('viewEventViewer', [$request->user()]);
+        });
+    }
+
     public function register()
     {
         $this->app->singleton(EventViewer::class, function ($app) {
-            return new EventViewer($this->app);
+            return new EventViewer();
         });
     }
 
@@ -25,7 +40,7 @@ class EventViewerServiceProvider extends ServiceProvider
     {
         Route::group([
             'prefix' => config('event-viewer.path'),
-            'namespace' => 'Spacebib\\EventViewer\\Controllers',
+            'namespace' => 'Spacebib\\EventViewer\\Http\\Controllers',
             'as' => 'event-viewer.',
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/routes.php');

@@ -2,22 +2,34 @@
 
 namespace Spacebib\EventViewer;
 
+use Closure;
 use Illuminate\Contracts\Foundation\Application;
-use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Query\Builder;
 
 class EventViewer
 {
     /**
-     * The application instance.
+     * The callback that should be used to authenticate Horizon users.
      *
-     * @var Application
+     * @var Closure
      */
-    protected $app;
+    public static $authUsing;
 
-    public function __construct(Application $app)
+    public static function check($request)
     {
-        $this->app = $app;
+        return (self::$authUsing ?: function () {
+            return app()->environment('local');
+        })($request);
+    }
+
+    /**
+     * Set the callback that should be used to authenticate Event-Viewer users.
+     *
+     * @param Closure $callback
+     */
+    public static function auth(Closure $callback)
+    {
+        self::$authUsing = $callback;
     }
 
     public function findByAggregateRootId(string $aggregateRootId)
@@ -30,14 +42,14 @@ class EventViewer
 
     public function queryBuilder(): Builder
     {
-        $connection = $this->app['db']->connection($this->getConfig('connection'));
+        $connection = app()['db']->connection($this->getConfig('connection'));
 
         return $connection->table($this->getConfig('table'));
     }
 
     public function getConfig(string $name)
     {
-        return $this->app['config']["event-viewer.{$name}"];
+        return config("event-viewer.{$name}");
     }
 
     public function format($model)
