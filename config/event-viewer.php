@@ -7,8 +7,9 @@ return [
         'aggregate_root_id' => 'aggregate_uuid',
         'event_type' => 'event_class',
         'time_of_recording' => 'created_at',
-        'pay_load' => 'event_properties',
+        'payload' => 'event_properties',
     ],
     'path' => 'event-viewer',
     'accessEmails' => [],
+    'perPage' => 20,
 ];

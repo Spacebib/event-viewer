@@ -8,13 +8,21 @@
     <form method="GET">
         <div class="row">
             <div class="col">
-                <input type="text" class="form-control mb-2 mr-sm-2" name="aggregate_root_id" placeholder="AGGREGATE ROOT ID">
+                <div class="input-group position-relative">
+                    <input type="text" class="form-control mb-2 mr-sm-2"
+                           name="aggregate_root_id"
+                           placeholder="AGGREGATE ROOT ID"
+                           value="{{ request('aggregate_root_id') }}"
+                    >
+                    <span class="form-clear d-none"><i class="fa fa-times"></i></span>
+                </div>
+
             </div>
             <div class="col">
                 <select class="custom-select" name="event_type">
                     <option value="">Event Type</option>
                     @foreach($eventTypes as $type)
-                        <option value="{{ $type }}">{{ $type }}</option>
+                        <option @if($type === request('event_type')) selected @endif value="{{ $type }}">{{ $type }}</option>
                     @endforeach
                 </select>
             </div>
@@ -43,6 +51,11 @@
                     @foreach($headers as $key => $value)
                         <td class="text-left">
                             <span class="badge">{{ $row->{$columnsMap[$key]} }}</span>
+                            @if($key === 'aggregate_root_id' )
+                                <a href="{{ url()->current().'?aggregate_root_id='.$row->{$columnsMap[$key]} }}" class="btn btn-link" data-toggle="tooltip" data-placement="right" title="Filter by this aggregate uuid">
+                                    <i class="fa fa-filter" aria-hidden="true"></i>
+                                </a>
+                            @endif
                         </td>
                     @endforeach
                     <td class="text-left">
@@ -60,5 +73,5 @@
         </table>
     </div>
 
-    {{ $rows->links() }}
+    {{ $rows->appends(request()->except('page'))->links() }}
 @endsection

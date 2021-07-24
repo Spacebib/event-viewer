@@ -4,7 +4,7 @@ A Laravel package that can be used to view event streams
 
 ## Install
 
-
+`composer require spacebib/event-viewer`
 
 ## Setup
 

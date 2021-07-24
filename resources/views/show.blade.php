@@ -2,45 +2,36 @@
 
 @section('content')
     <div class="page-header mb-4">
-        <h1>@lang('Events')</h1>
+        <h1>@lang('Event')</h1>
     </div>
 
-    <div class="table-responsive">
-        <table class="table table-sm table-hover">
-            <thead>
-            <tr>
-                @foreach($headers as $header)
-                    <th scope="col" class="text-left text-uppercase">
-                        {{ $header }}
-                    </th>
-                @endforeach
-                <th scope="col" class="text-left text-uppercase">
-                    @lang('view')
-                </th>
-            </tr>
-            </thead>
-            <tbody>
-            @forelse($rows as $row)
-                <tr>
-                    @foreach($headers as $key => $value)
-                        <td class="text-left">
-                            <span class="badge">{{ $row->{$columnsMap[$key]} }}</span>
-                        </td>
-                    @endforeach
-                    <td class="text-left">
-                        <a href="{{ route('event-viewer.show', $row->{$columnsMap['aggregate_root_id']}) }}"><i class="fa fa-eye"></i></a>
-                    </td>
-                </tr>
-            @empty
-                <tr>
-                    <td colspan="11" class="text-center">
-                        <span class="badge badge-secondary">@lang('The list of events is empty!')</span>
-                    </td>
-                </tr>
-            @endforelse
-            </tbody>
-        </table>
+    <div class="card">
+        <div class="card-header">
+            Event Details
+        </div>
+        <div class="card-body">
+            @foreach($columns as $column)
+                @if($column === $columnsMap['payload']) @continue @endif
+                <div class="d-flex">
+                    <div class="p-2" style="flex: 0 0 200px">{{ $column }}</div>
+                    <div class="p-2 flex-shrink-0">
+                        @if($column === $columnsMap['aggregate_root_id'])
+                            <span>{{ $event->{$column} }}</span>
+                            <button class="btn btn-link btn-clipboard" data-toggle="tooltip" data-placement="top" title="Copy to Clipboard" data-clipboard-text="{{ $event->{$column} }}"><i class="fa fa-clipboard"></i></button>
+                        @else
+                            {{ $event->{$column} }}
+                        @endif
+                    </div>
+                </div>
+            @endforeach
+        </div>
     </div>
-
-    {{ $rows->links() }}
+    <div class="card">
+        <div class="card-header">
+            Payload
+        </div>
+        <div class="card-body">
+            <pre><code class="language-json" id="ev-json">{{ $event->{$columnsMap['payload']} }}</code></pre>
+        </div>
+    </div>
 @endsection

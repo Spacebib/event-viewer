@@ -31,6 +31,8 @@ class EventViewerServiceProvider extends ServiceProvider
 
     public function register()
     {
+        $this->mergeConfigFrom(__DIR__.'/../config/event-viewer.php', 'event-viewer');
+
         $this->app->singleton(EventViewer::class, function ($app) {
             return new EventViewer();
         });
