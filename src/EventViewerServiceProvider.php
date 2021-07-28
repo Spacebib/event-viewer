@@ -44,6 +44,7 @@ class EventViewerServiceProvider extends ServiceProvider
             'prefix' => config('event-viewer.path'),
             'namespace' => 'Spacebib\\EventViewer\\Http\\Controllers',
             'as' => 'event-viewer.',
+            'middleware' => config('event-viewer.middleware', 'web'),
         ], function () {
             $this->loadRoutesFrom(__DIR__.'/routes.php');
         });
