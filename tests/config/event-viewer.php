@@ -11,4 +11,5 @@ return [
     ],
     'path' => 'event-viewer',
     'accessEmails' => ['admin@event-viewer.com'],
+    'perPage' => 20,
 ];
