@@ -43,11 +43,11 @@ class EventViewerController extends Controller
         return view('event-viewer::index', compact('headers', 'rows', 'columnsMap', 'eventTypes'));
     }
 
-    public function show(string $aggregateId)
+    public function show(int $id)
     {
         $columns = Schema::getColumnListing($this->eventViewer->getConfig('table'));
         $columnsMap = $this->eventViewer->getConfig('columns');
-        $event = $this->eventViewer->format($this->eventViewer->findByAggregateRootId($aggregateId));
+        $event = $this->eventViewer->format($this->eventViewer->findByID($id));
         return view('event-viewer::show', compact('event', 'columnsMap', 'columns'));
     }
 }

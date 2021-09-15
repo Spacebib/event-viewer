@@ -59,7 +59,7 @@
                         </td>
                     @endforeach
                     <td class="text-left">
-                        <a href="{{ route('event-viewer.show', $row->{$columnsMap['aggregate_root_id']}) }}"><i class="fa fa-eye"></i></a>
+                        <a href="{{ route('event-viewer.show', $row->id) }}"><i class="fa fa-eye"></i></a>
                     </td>
                 </tr>
             @empty

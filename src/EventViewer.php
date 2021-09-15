@@ -32,12 +32,11 @@ class EventViewer
         self::$authUsing = $callback;
     }
 
-    public function findByAggregateRootId(string $aggregateRootId)
+    public function findByID(int $id)
     {
         return $this
             ->queryBuilder()
-            ->where($this->getConfig('columns.aggregate_root_id'), $aggregateRootId)
-            ->first();
+            ->find($id);
     }
 
     public function queryBuilder(): Builder
