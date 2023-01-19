@@ -24,7 +24,8 @@ class AuthenticateTest extends TestCase
         $middleware = new Authenticate;
 
         try {
-            $middleware->handle($request, function () {});
+            $middleware->handle($request, function () {
+            });
             $this->fail('Expected exception HttpException(403) not shown');
         } catch (HttpException $e) {
             $this->assertEquals(403, $e->getStatusCode());

@@ -14,6 +14,7 @@ class EventViewerServiceProvider extends ServiceProvider
 
         $this->registerRoutes();
         $this->registerResources();
+        $this->defineAssetPublishing();
         $this->registerPublishing();
     }
 
@@ -53,6 +54,13 @@ class EventViewerServiceProvider extends ServiceProvider
     private function registerResources()
     {
         $this->loadViewsFrom(__DIR__.'/../resources/views', 'event-viewer');
+    }
+
+    public function defineAssetPublishing()
+    {
+        $this->publishes([
+            realpath(__DIR__.'/../').'/public' => public_path('vendor/event-viewer'),
+        ], ['event-viewer-assets']);
     }
 
     private function registerPublishing()
