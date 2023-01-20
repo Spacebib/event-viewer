@@ -17,16 +17,13 @@ class EventViewerControllerTest extends TestCase
     }
 
     /** @test */
-    public function visit_index_route()
+    public function visit_index_route(): void
     {
+        $this->withoutMix();
         $response = $this->get(route('event-viewer.index'));
         $response->assertStatus(200);
-    }
 
-    /** @test */
-    public function visit_show_route()
-    {
-        $response = $this->get(route('event-viewer.show', random_bytes(10)));
-        $response->assertNotFound();
+        $response = $this->get(route('event-viewer.index', 'dashboard'));
+        $response->assertStatus(200);
     }
 }

@@ -31,6 +31,6 @@ class TestCase extends \Orchestra\Testbench\TestCase
             'database' => ':memory:',
             'prefix'   => '',
         ]);
-        $app['config']->set('event-viewer', include __DIR__.'/config/event-viewer.php');
+        $app['config']->set('event-viewer', include __DIR__ . '/config/event-viewer.php');
     }
 }
