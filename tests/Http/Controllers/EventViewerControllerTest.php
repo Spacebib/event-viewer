@@ -16,8 +16,7 @@ class EventViewerControllerTest extends TestCase
         });
     }
 
-    /** @test */
-    public function visit_index_route(): void
+    public function test_visit_index_route(): void
     {
         $this->withoutMix();
         $response = $this->get(route('event-viewer.index'));

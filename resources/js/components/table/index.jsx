@@ -1,6 +1,7 @@
 import _ from "lodash";
 import React from "react";
 import { Pagination } from "../pagination";
+import { CursorPagination } from "../pagination/cursor";
 import clsx from "clsx";
 
 export const Table = ({
@@ -60,7 +61,15 @@ export const Table = ({
           </table>
         )}
       </div>
-      {meta && (
+      {meta && meta.next_cursor !== undefined ? (
+        <CursorPagination
+          nextCursor={meta.next_cursor}
+          prevCursor={meta.prev_cursor}
+          perPage={meta.per_page}
+          onNext={(cursor) => setPage?.(cursor)}
+          onPrev={(cursor) => setPage?.(cursor)}
+        />
+      ) : meta ? (
         <Pagination
           current={meta.current_page ?? 1}
           total={meta.total ?? dataSource?.length ?? 0}
@@ -69,7 +78,7 @@ export const Table = ({
             setPage?.(page);
           }}
         />
-      )}
+      ) : null}
     </>
   );
 };

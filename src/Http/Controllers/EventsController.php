@@ -10,9 +10,10 @@ class EventsController extends Controller
     public function index(Request $request)
     {
         $columnsMap = $this->eventViewer->getConfig('columns');
-
+        $isFilteringByAggregateRootId = false;
         $query = $this->eventViewer->queryBuilder();
         if ($agId = $request->query('filter')['search'] ?? null) {
+            $isFilteringByAggregateRootId = true;
             $query->where($columnsMap['aggregate_root_id'], $agId);
         }
         if ($eventType = $request->query('filter')['event'] ?? null) {
@@ -30,8 +31,11 @@ class EventsController extends Controller
             $query->latest('id');
         }
 
-        $rows = $query
-            ->paginate(request('perPage', $this->eventViewer->getConfig('perPage')));
+        if ($isFilteringByAggregateRootId) {
+            $rows = $query->paginate(request('perPage', $this->eventViewer->getConfig('perPage')));
+        } else {
+            $rows = $query->cursorPaginate(request('perPage', $this->eventViewer->getConfig('perPage')));
+        }
 
         return EventResource::collection($rows);
     }

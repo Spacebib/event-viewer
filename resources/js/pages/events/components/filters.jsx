@@ -26,7 +26,7 @@ export const Filters = ({ onSubmit }) => {
         <input
           type="text"
           id="table-search"
-          className="block p-2 pl-6 text-sm text-gray-900 border border-gray-300 rounded-md w-96 focus:ring-blue-500 focus:border-blue-500"
+          className="block p-2 pl-6 text-sm text-gray-900 border border-gray-300 rounded-md w-96 focus:ring-indigo-500 focus:border-indigo-500"
           placeholder="Aggregate Root ID"
           value={aggregateRootID}
           onChange={(e) => setAggregateRootID(e.target.value)}
