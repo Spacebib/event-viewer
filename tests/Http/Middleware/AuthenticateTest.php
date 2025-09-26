@@ -1,6 +1,6 @@
 <?php
 
-namespace Spacebib\EventViewer\Tests\Http\Controllers;
+namespace Spacebib\EventViewer\Tests\Http\Middleware;
 
 use Illuminate\Foundation\Auth\User;
 use Illuminate\Http\Request;
@@ -11,7 +11,7 @@ use Symfony\Component\HttpKernel\Exception\HttpException;
 class AuthenticateTest extends TestCase
 {
     /** @test */
-    public function it_will_abort_403_with_the_user_has_no_access()
+    public function test_it_will_abort_403_with_the_user_has_no_access()
     {
         $userResolver = function () {
             return new User();
