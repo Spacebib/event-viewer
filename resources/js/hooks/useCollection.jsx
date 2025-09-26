@@ -5,10 +5,10 @@ import useQueryString from "./useSyncQueryString";
 import React from "react";
 
 export const useCollection = (name, filter = {}, sorts = []) => {
-  const [page, setPage] = useQueryString("page", 1);
+  const [cursor, setCursor] = useQueryString("cursor", null);
 
   const { data, isLoading, error } = useQuery(
-    [name, { page, filter, sorts }],
+    [name, { page: cursor, filter, sorts }],
     fetchCollections,
     {
       select: (data) => {
@@ -21,8 +21,8 @@ export const useCollection = (name, filter = {}, sorts = []) => {
     data,
     isLoading,
     error,
-    page,
-    setPage,
+    page: cursor,
+    setPage: (value) => setCursor(typeof value === 'number' ? value.toString() : value),
     filter,
     sorts,
   };
@@ -42,8 +42,9 @@ export function fetchCollections({ queryKey }) {
   const sortsStr = sorts.join(",");
 
   const qsObj = {};
+  const isCursor = typeof page === 'string';
   for (const [key, value] of Object.entries({
-    page,
+    [isCursor ? 'cursor' : 'page']: page,
     perPage,
     filter: filterObj,
     sort: sortsStr,
@@ -53,7 +54,6 @@ export function fetchCollections({ queryKey }) {
     }
   }
   const queryString = qs.stringify(qsObj);
-
   return req
     .get(`/event-viewer/api/${_key}?${queryString}`)
     .then((response) => response?.data);

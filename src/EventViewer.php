@@ -4,6 +4,7 @@ namespace Spacebib\EventViewer;
 
 use Closure;
 use Illuminate\Contracts\Foundation\Application;
+use Illuminate\Database\Connection;
 use Illuminate\Database\Query\Builder;
 
 class EventViewer
@@ -44,6 +45,12 @@ class EventViewer
         $connection = app()['db']->connection($this->getConfig('connection'));
 
         return $connection->table($this->getConfig('table'));
+    }
+
+    public function count(): int
+    {
+        // Since events are immutable and append-only, MAX(id) gives exact count
+        return $this->queryBuilder()->max('id') ?? 0;
     }
 
     public function getConfig(string $name)

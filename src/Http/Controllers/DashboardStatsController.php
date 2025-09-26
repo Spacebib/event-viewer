@@ -9,7 +9,7 @@ class DashboardStatsController extends Controller
         $columnsMap = $this->eventViewer->getConfig('columns');
         $query = $this->eventViewer->queryBuilder();
         return [
-            'totalEvents' => $this->eventViewer->approximateCount(),
+            'totalEvents' => $this->eventViewer->count(),
             'maxVersion' => $query->max($columnsMap['aggregate_version'] ?? 'aggregate_version'),
         ];
     }
